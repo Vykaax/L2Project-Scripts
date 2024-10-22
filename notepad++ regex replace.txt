@@ -1,0 +1,8 @@
+To update old scripts pre L2Project 2.6 (using sleep) to 2.6+ (using Sleep) do the following find and replace regex in Notepad++
+First you may need to replace "sleep (" with "sleep(" to get rid of the space... sorry I don't feel like handling this in the regex because I hate regex
+
+Find:
+await sleep\(([0-9]+)\);
+
+Replace:
+if \(\(__VERSION__.split\("."\)[0] >= 3\) || \(__VERSION__.split\("."\)[0] == 2 && __VERSION__.split\("."\)[1] >= 6\)\) {await Sleep\($1\);} else {await sleep\($1\);}
