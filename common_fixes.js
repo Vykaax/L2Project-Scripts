@@ -6,7 +6,7 @@ var verboseLog = 1; // 0 nothing, 1 rare events, 2 testing, 3 lots of testing
 // SupportAssist
 var assistTargetID;
 var assistEnable = false;
-const assistEnableClasses = ["Warcryer","Doomcryer","Overlord","Dominator","Prophet","Heirophant"];
+const assistEnableClasses = ["Warcryer","Doomcryer","Overlord","Dominator","Prophet","Hierophant"];
 var noSpam = 1;
 
 // MoveAssist
@@ -61,7 +61,7 @@ async function MoveToLeader() {
                     DisableBot();
                 }
                 Send.MoveTo(FollowChar.X, FollowChar.Y);
-                await sleep (500);
+                if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(500);} else {await sleep(500);}
                 FollowChar.CalculateDistance();
                 if (verboseLog >= 1) { console.info(`${(new Date()).toLocaleTimeString()} : VCFS : Moving to leader at ${FollowChar.X},${FollowChar.Y} - distance ${FollowChar.Distance}`); }
             }
@@ -110,15 +110,15 @@ function OpenTreasureChest() {
 }
 
 (async function main() {
-    console.info("=== Vykaax's Common Fixes Script Enabled v0.7 ===");
-    await sleep (1500);
+    console.info("=== Vykaax's Common Fixes Script Enabled v0.8 ===");
+    if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1500);} else {await sleep(1500);}
     while (!Context.IsConnected) {
-          await sleep (500);  
+          if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(500);} else {await sleep(500);}  
     }
-    await sleep (1500);
+    if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1500);} else {await sleep(1500);}
     EnableBot();
     if (assistEnableClasses.includes(Me.ClassName)) {
-        assistEnable = true;
+        //assistEnable = true;
     }
     
     console.warn(`${(new Date()).toLocaleTimeString()} : VCFS : My class is ${Me.ClassName} (AssistEnabled = ${assistEnable})`);
@@ -129,7 +129,7 @@ function OpenTreasureChest() {
             if (Context.IsConnected && !Me.IsDead) {
                 if (movingToLeader == false) {
                     OpenTreasureChest();
-                    await sleep (500);
+                    if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(500);} else {await sleep(500);}
                     if (assistEnable && IsEnabled && !IsInCombat && noSpam <= 5) { TryToAssist(); }// else { noSpam = 0; }
                     //try { MoveToLeader(); } catch(moveError) {}
                 }
@@ -137,7 +137,7 @@ function OpenTreasureChest() {
         } catch (err) {
             console.error(`${(new Date()).toLocaleTimeString()} : VCFS : Error in main loop... ${err}`);
         }
-        await sleep(1500);
+        if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1500);} else {await sleep(1500);}
     }
     console.warn(`${(new Date()).toLocaleTimeString()} : : The script ended`);
 })();
