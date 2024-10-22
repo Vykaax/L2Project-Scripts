@@ -1,14 +1,14 @@
 //JavaScript Math
 
 (async function main() {
-    console.log("Delevel Script Started");
+    console.info("=".repeat(54) + "\n== Vykaax's Deleveler Script 1.2 ==\n" + "=".repeat(54));
 	DisableBot();
     for(;;) {
 		if (Me.Level > 55) {
 			Send.MoveTo(-83730,242767);
-			await sleep(5500);
+			if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(5500);} else {await sleep(5500);}
 			Send.MoveTo(-82314,241305);
-			await sleep(13000);
+			if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(13000);} else {await sleep(13000);}
 			// get random guard
 			let guard = Math.floor(Math.random()*2);
 			//let guard = 1;
@@ -29,14 +29,14 @@
 			while (!Me.IsDead && !guardNPC.IsDead) {
 				Send.AttackRequest(guardNPC.objId);
 				console.log(`Attacking ${guardNPC.Name} (${guardNPC.objId})`);
-				await sleep(1000);			
+				if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}			
 			}
-			await sleep(1000);
+			if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
 			if (Me.IsDead) {
 				Send.SendHex("7D00000001");
 			}
 		}
-		await sleep(1500);
+		if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1500);} else {await sleep(1500);}
     }
 	console.log(`De-leveling finished. I am now ${Me.Level}`);
 })();

@@ -8,11 +8,11 @@
 	for (;;) {
 		if (Status.IsConnected && Me.IsInCombat && !Me.IsDead) {
 			Send.RequestMagicSkillUse(SPOIL_FESTIVAL_ID);
-			await sleep(200);
+			if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(200);} else {await sleep(200);}
 			Send.RequestMagicSkillUse(SPOIL_FESTIVAL_ID);
-			await sleep(200);
+			if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(200);} else {await sleep(200);}
 			Send.RequestMagicSkillUse(SPOIL_FESTIVAL_ID);
-			await sleep(15000);
+			if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(15000);} else {await sleep(15000);}
 		}
 	}
 })();

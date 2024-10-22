@@ -7,7 +7,7 @@ function OnDie(deadObjId) {
 
 
 (async function main() {
-	await sleep(1500);
+	if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1500);} else {await sleep(1500);}
 	
 	console.info(`${(new Date()).toLocaleTimeString()} : OOP Healer : Script Started v1.00`);
 	for (;;) {
@@ -16,13 +16,13 @@ function OnDie(deadObjId) {
 				Send.Action(CreaturesList.GetItemByName("RedTwo").objId);
 				Send.Action(CreaturesList.GetItemByName("RedTwo").objId);
 				Send.RequestMagicSkillUse(1016);
-				await sleep(250);
+				if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(250);} else {await sleep(250);}
 			}
 			
 			Send.Action(CreaturesList.GetItemByName("RedLeader").objId);
 			Send.RequestMagicSkillUse(1401);
 			
 		}
-		await sleep(250);
+		if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(250);} else {await sleep(250);}
 	}
 })();

@@ -67,7 +67,7 @@ var defendKillCount = 0;
 				}
 			}
 		}
-		await sleep(150);
+		if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(150);} else {await sleep(150);}
 		//console.info(`Wait`);
     }
 })();

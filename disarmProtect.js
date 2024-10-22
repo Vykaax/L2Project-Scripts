@@ -3,7 +3,7 @@ var lockedWeaponID;
 async function OnSystemMessage(id) {
 	if (id == 417) {
 		console.error(`${(new Date()).toLocaleTimeString()} : PvP Manager : I've been disarmed!`);
-		await sleep(5100);
+		if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(5100);} else {await sleep(5100);}
 		EquipLockedWeapon();
 	}
 }
@@ -38,20 +38,20 @@ async function EquipLockedWeapon() {
 		console.error(`${(new Date()).toLocaleTimeString()} : PvP Manager : I have nothing to equip!`);
 	} else {
 		console.warn(`${(new Date()).toLocaleTimeString()} : PvP Manager : Equipping ${Inventory.GetItemByObjectID(lockedWeaponID).Name}!`);
-		await sleep(200);
+		if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(200);} else {await sleep(200);}
 		Send.UseItem(lockedWeaponID);
 	}
 }
 
 (async function main() {
-    console.info("=== Vykaax's Weapon Manager Script 1.1 ===");
+    console.info("=== Vykaax's Weapon Manager Script 1.2 ===");
 	console.info(`${(new Date()).toLocaleTimeString()} : PvP Manager : Started`);
-	await sleep(500);
+	if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(500);} else {await sleep(500);}
 	LockBestWeapon();
-	await sleep(5000);
+	if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(5000);} else {await sleep(5000);}
 	for (;;) {
 		LockBestWeapon();
-		await sleep(5000);
+		if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(5000);} else {await sleep(5000);}
 		if (Context.IsConnected && !Me.IsDead) {
 			let hasEquipped = false;
 			let itemCount = Inventory.Count;
@@ -68,6 +68,6 @@ async function EquipLockedWeapon() {
 				EquipLockedWeapon();
 			}
 		}
-		await sleep(500);
+		if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(500);} else {await sleep(500);}
 	}
 })();

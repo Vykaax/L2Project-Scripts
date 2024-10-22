@@ -24,6 +24,6 @@
 				}
 			}
 		}
-		await sleep(5000);
+		if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(5000);} else {await sleep(5000);}
 	}
 })();

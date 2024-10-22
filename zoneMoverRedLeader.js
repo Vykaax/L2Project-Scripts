@@ -3,7 +3,7 @@ async function moveToWait(x,y) {
 	console.info(`Zone Mover: Moving to ${x},${y} | My position ${Me.X},${Me.Y}`);
 	do {
 		Send.Move(x,y);
-		await sleep(500);
+		if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(500);} else {await sleep(500);}
 	} while (Me.X != x && Me.Y != y)
 		
 	console.info(`Zone Mover: Finished moving`);
@@ -43,7 +43,7 @@ function countNearMobs() {
 
 
 (async function main() {
-	console.info("=".repeat(54) + "\n== Vykaax's Zone Mover Script 1.00 ==\n" + "=".repeat(54));
+	console.info("=".repeat(54) + "\n== Vykaax's Zone Mover Script 1.1 ==\n" + "=".repeat(54));
 	let nearMobs = 0;
 	// 114624 15906
     for(;;) {
@@ -58,6 +58,6 @@ function countNearMobs() {
 				moveToWait(114811,16042);
 			}
 		}
-		await sleep(2000);
+		if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(2000);} else {await sleep(2000);}
     }
 })();

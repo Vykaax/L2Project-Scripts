@@ -29,7 +29,7 @@ assert_min_version("2.1.2");
 
 	const CHECK_INTERVAL = 500; // 1 second. Increase this to check less frequently
 
-	console.info("=".repeat(54) + "\n== Vykaax's Destroyer Script 1.04 ==\n" + "=".repeat(54));
+	console.info("=".repeat(54) + "\n== Vykaax's Destroyer Script 1.05 ==\n" + "=".repeat(54));
 	console.info(`${(new Date()).toLocaleTimeString()} : DestroyerBuffer : My class is ${Me.ClassName} (${Me.ClassId.toString()})`);
 	for (;;) {
 		if (Context.IsConnected && !Me.IsDead && (Me.ClassId == 113)) {

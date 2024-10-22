@@ -5,7 +5,7 @@ lockTarget = null;
 
 
 (async function main() {
-    console.error("=== MURDER TIME v1.00 ===");
+    console.error("=== MURDER TIME v1.01 ===");
     for(;;) {
         if (Context.IsConnected) {
             if (CurrentZone.ToString() == "GENERALZONE" || CurrentZone.ToString() == "ALTEREDZONE") {
@@ -46,11 +46,11 @@ lockTarget = null;
                     console.info(`${(new Date()).toLocaleTimeString()} : MURDER TRAIN : Moving away from fight to buff`);
                     let moveDist = 300;
                     Send.MoveTo(Math.floor(Me.X+((Math.floor(Math.random()*moveDist)+50)*(Math.round(Math.random()) ? 1: -1))),Math.floor(Me.Y+((Math.floor(Math.random()*moveDist)+50)*(Math.round(Math.random()) ? 1: -1))));
-                    await sleep(4000);
+                    if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(4000);} else {await sleep(4000);}
                 }                    
             }
         }
-		await sleep(200);
+		if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(200);} else {await sleep(200);}
         
     }
 })();

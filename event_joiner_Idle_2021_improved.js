@@ -28,11 +28,11 @@ async function OnSay(charName, fullChatString, messageType) {
 				//let	eventNum = 1;
 				for (i = 0; i < 14; i++) {
 					Send.ReqBypassToServer("_bbseventRegister_"+i);
-					await sleep(2000);
+					if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(2000);} else {await sleep(2000);}
 				}
 				pvpMode = true;
 		}
-		await sleep(1500);
+		if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1500);} else {await sleep(1500);}
 	}
 }
 
@@ -54,7 +54,7 @@ async function OnDie(deadObjId) {
 		//StopCombat();
 		console.error(`${(new Date()).toLocaleTimeString()} : Event Joiner : I died!!!`);
 		if (CurrentZone.ToString() == "GENERALZONE" || CurrentZone.ToString() == "ALTEREDZONE" ) {
-			//await sleep(1500);
+			//if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1500);} else {await sleep(1500);}
 			Send.SendHex("7D00000000");// return to town
 		}
 	} else if (deadObjId == fightOffObjId) { 
@@ -169,7 +169,7 @@ var fightOffObjId = null;
 								console.info(`${(new Date()).toLocaleTimeString()} : Event Joiner : Selected Target (${eventTarget.Name})`);
 							}
 						}
-						await sleep(300);
+						if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(300);} else {await sleep(300);}
 						
 						if (eventTarget != null) {
 							console.info(`My target is ${eventTarget.Name}`)
@@ -177,9 +177,9 @@ var fightOffObjId = null;
 							console.info(`${(new Date()).toLocaleTimeString()} : Event Joiner : Attacking target ${eventTarget.Name}`);
 							//eventTarget = CreaturesList.GetItemByObjectID(validTarget);
 							Send.Action(eventTarget.objId);
-							await sleep(250);
+							if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(250);} else {await sleep(250);}
 							Send.MoveTo(eventTarget.X,eventTarget.Y);
-							await sleep(250);
+							if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(250);} else {await sleep(250);}
 							eventTarget.CalculateDistance();
 							if (eventTarget.Distance > 300 && eventTarget.Distance < 900) {
 								Send.RequestMagicSkillUse(793);
@@ -197,16 +197,16 @@ var fightOffObjId = null;
 								console.info(`${(new Date()).toLocaleTimeString()} : Event Joiner : No players found, dancing to stay active`);
 								//Send.MoveTo(Math.floor(Me.X-700),Math.floor(Me.Y));
 								Send.MoveTo(Math.floor(Me.X+((Math.floor(Math.random()*moveDist)+50)*(Math.round(Math.random()) ? 1: -1))),Math.floor(Me.Y+((Math.floor(Math.random()*moveDist)+50)*(Math.round(Math.random()) ? 1: -1))));
-								await sleep(2500);
+								if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(2500);} else {await sleep(2500);}
 								Send.MoveTo(Math.floor(Me.X+((Math.floor(Math.random()*moveDist)+50)*(Math.round(Math.random()) ? 1: -1))),Math.floor(Me.Y+((Math.floor(Math.random()*moveDist)+50)*(Math.round(Math.random()) ? 1: -1))));
 								//Send.MoveTo(Math.floor(Me.X+700),Math.floor(Me.Y));
-								await sleep(2500);
+								if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(2500);} else {await sleep(2500);}
 							} else {
 								console.info(`${(new Date()).toLocaleTimeString()} : Event Joiner : No players found, moving to flag`);
 								Send.Action(findFlag.objId);
-								await sleep(250);
+								if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(250);} else {await sleep(250);}
 								Send.Action(findFlag.objId);
-								await sleep(250);
+								if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(250);} else {await sleep(250);}
 								Send.Action(findFlag.objId);
 							}
 						}
@@ -227,7 +227,7 @@ var fightOffObjId = null;
 						fightOffObjId = null;
 						
 						if (Me.HpPercent < 80) {
-							await sleep(2500);
+							if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(2500);} else {await sleep(2500);}
 							console.info(`${(new Date()).toLocaleTimeString()} : Event Joiner : Healing from community window`);
 							Send.ReqBypassToServer("_bbsbufferbypass_heal 0 0 0");
 						}
@@ -240,16 +240,16 @@ var fightOffObjId = null;
 							console.info(`${(new Date()).toLocaleTimeString()} : Event Joiner : I am waiting for the event to start`);
                             inEvent = true;
 							// just keep waiting for the event to start
-							await sleep(15000);
+							if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(15000);} else {await sleep(15000);}
 						} else if (Me.HpPercent >= 75) {
                             inEvent = false;
 							console.info(`${(new Date()).toLocaleTimeString()} : Event Joiner : I am preparing to return to my farming area`);
 							//console.info("456");
 							EnableBot();
-							await sleep(15000);
+							if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(15000);} else {await sleep(15000);}
 							needToRun = true;
 							RunCommand("/runmacro FARM");
-							await sleep(1500);
+							if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1500);} else {await sleep(1500);}
 							
 							
 							//StartCombat();
@@ -259,7 +259,7 @@ var fightOffObjId = null;
 					} else if (CurrentZone.ToString() == "GENERALZONE" || (CurrentZone.ToString() == "ALTEREDZONE" && !inEvent)) {
 						inEvent = false;
 						if (needToRun) {
-							await sleep (1500);
+							if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1500);} else {await sleep(1500);}
 							isRunning = true;
 							RunCommand("/runmacro RUN");
 						}
@@ -277,7 +277,7 @@ var fightOffObjId = null;
 					}
 
 				} else {
-					await sleep(1000);
+					if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
 				}
 				if (Me.IsDead) {// && L2Zone.Type != 12) {
 					Send.Say2(0,"a","",true);
@@ -289,6 +289,6 @@ var fightOffObjId = null;
 					console.error(e);
 				}
 		}
-		await sleep(1000);
+		if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
     }
 })();

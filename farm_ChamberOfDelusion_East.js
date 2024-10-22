@@ -35,14 +35,14 @@ function getNearestManager() {
 
 (async function main() {
     console.log(`Delusion Farmer: Starting Vykaax's Chamber of Delusion Soul Crystal Farm Script`);
-	await sleep(500);
+	if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(500);} else {await sleep(500);}
 	// First run, make sure the party is near the Guardian of Eastern Seal
 	console.log(`Delusion Farmer: Gathering party near the Eastern Seal`);
 	Send.MoveTo(-114600,-151405);
-	await sleep(7500);
+	if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(7500);} else {await sleep(7500);}
 	let bossEncounters = 0;
 	let chamberRuns = 1;
-	await sleep(500);
+	if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(500);} else {await sleep(500);}
 	
 	for (;;) {
 		console.log(`Delusion Farmer: Beginning Eastern Chamber Run #${chamberRuns}`);
@@ -50,28 +50,28 @@ function getNearestManager() {
 		// 268438459 - Guardian of Eastern Seal objId
 		let guardianID = CreaturesList.GetItemByName("Guardian of Eastern Seal");
 		Send.MoveTo(-114600,-151405);
-		await sleep(2000);
+		if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(2000);} else {await sleep(2000);}
 		console.log(`Delusion Farmer: Selecting Guardian of Eastern Seal`);
 		Send.Action(guardianID.objId);
-		await sleep(1000);
+		if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
 		console.log(`Delusion Farmer: Talking to Guardian of Eastern Seal`);
 		Send.Action(guardianID.objId);
-		await sleep(1000);
+		if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
 		console.log(`Delusion Farmer: Entering Chamber of Delusion East`);
 		// "Enter the Eastern Seal" Quest ChamberOfDelusionEast
 		Send.ReqBypassToServer(`npc_${guardianID.objId}_Quest ChamberOfDelusionEast`);
-		await sleep(2000);
+		if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(2000);} else {await sleep(2000);}
 		console.log(`Delusion Farmer: Checking if Aenkinel is in this room`);
 		if (checkForAenkinel() == true) {
 			console.log(`Delusion Farmer: Aenkinel is nearby!`);
 			console.log(`Delusion Farmer: Starting Combat`);
 			StartCombat();
 			while (checkForAenkinel() == true) {
-				await sleep(10000);
+				if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(10000);} else {await sleep(10000);}
 			}
 			console.log(`Delusion Farmer:  Waiting 15 Seconds to Clear Chests`);
 			// Wait timer to clear chests, reduce this if you don't care about them and just want Soul Crystals
-			await sleep(15000);
+			if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(15000);} else {await sleep(15000);}
 			console.log(`Delusion Farmer: Ending Combat`);
 			StopCombat();
 			bossEncounters += 1;
@@ -82,23 +82,23 @@ function getNearestManager() {
 			if (nearestManagerIdFirstRoom != null) {
 				console.log(`Delusion Farmer: Moving to next room using Chamber Invitation`);
 				Send.Action(nearestManagerIdFirstRoom);
-				await sleep(1000);
+				if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
 				Send.Action(nearestManagerIdFirstRoom);
-				await sleep(1000);
+				if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
 				// "Move to Another Room" Quest ChamberOfDelusionEast next_room
 				Send.ReqBypassToServer(`Quest ChamberOfDelusionEast next_room`);
-				await sleep(2000);
+				if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(2000);} else {await sleep(2000);}
 				console.log(`Delusion Farmer: Checking if Aenkinel is in this room`);
 				if (checkForAenkinel() == true) {
 					console.log(`Delusion Farmer: Aenkinel is nearby!`);
 					console.log(`Delusion Farmer: Starting Combat`);
 					StartCombat();
 					while (checkForAenkinel() == true) {
-						await sleep(10000);
+						if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(10000);} else {await sleep(10000);}
 					}
 					console.log(`Delusion Farmer: Waiting 50 Seconds to Clear Chests`);
 					// Wait timer to clear chests, reduce this if you don't care about them and just want Soul Crystals
-					await sleep(15000);
+					if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(15000);} else {await sleep(15000);}
 					console.log(`Delusion Farmer: Ending Combat`);
 					StopCombat();
 					bossEncounters += 1;
@@ -125,23 +125,23 @@ function getNearestManager() {
 			
 			if (nearestManagerIdSecondRoom != null) {
 				console.log(`Delusion Farmer: Exiting Chamber of Delusion`);
-				await sleep(500);
+				if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(500);} else {await sleep(500);}
 				Send.Action(nearestManagerIdSecondRoom);
-				await sleep(1000);
+				if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
 				Send.Action(nearestManagerIdSecondRoom);
-				await sleep(1000);
+				if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
 				//"Go Outside" GoTo_Quest ChamberOfDelusionEast go_out
 				Send.ReqBypassToServer(`Quest ChamberOfDelusionEast go_out`);
 			}
-			await sleep(500);
+			if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(500);} else {await sleep(500);}
 		}
-		await sleep(500);
+		if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(500);} else {await sleep(500);}
 		
 		console.log(`Delusion Farmer: Ending Chamber Run #${chamberRuns}`);
 		console.log(`Delusion Farmer: Chamber Runs: ${chamberRuns} || Aenkinel Encounters: ${bossEncounters}`);
 		chamberRuns += 1;
 		console.log(`Delusion Farmer: Waiting 5s for party to gather for next run...`);
-		await sleep(5000);
+		if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(5000);} else {await sleep(5000);}
 	}
 	console.log(`Delusion Farmer: Script Ended`);
 })();

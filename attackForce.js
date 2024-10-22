@@ -10,7 +10,7 @@ var AttackManager = (function () {
   const CHECK_INTERVAL = 200; // 1 second. Increase this to check less frequently
 
   function AttackManager() {
-    console.info("=".repeat(54) + "\n== Vykaax's Attack Manager 1.00 ==\n" + "=".repeat(54));
+    console.info("=".repeat(54) + "\n== Vykaax's Attack Manager 1.10 ==\n" + "=".repeat(54));
     console.info(`AttackManager: My class is ${Me.ClassName} (${Me.ClassId.toString()})`);
 	
 	attackInterval = setInterval(() => {

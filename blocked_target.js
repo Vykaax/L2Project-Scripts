@@ -19,10 +19,10 @@ async function OnIncomingPacket(p) {
 var blockCount = 0;
 
 (async function main() {
-    console.log("=== Vykaax's Line of Sight Fix v1.0 Enabled ===");
+    console.log("=== Vykaax's Line of Sight Fix v1.1 Enabled ===");
 	
     for(;;) {
 		// do nothing
-		await sleep(20000);
+		if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(20000);} else {await sleep(20000);}
     }
 })();

@@ -91,8 +91,8 @@ function SetAllClear() {
 }
 
 (async function main() {
-    console.info("=".repeat(54) + "\n== Vykaax's & Nick AutoBuff Script for Classes v1.8 ==\n" + "=".repeat(54));
-    await sleep(1000);
+    console.info("=".repeat(54) + "\n== Vykaax's & Nick AutoBuff Script for Classes v1.9 ==\n" + "=".repeat(54));
+    if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
        
     console.info(`${(new Date()).toLocaleTimeString()} : AutoBuffer : My class is ${Me.ClassName} (${Me.ClassId.toString()})`);
     var myScheme = GetBuffScheme();
@@ -109,7 +109,7 @@ function SetAllClear() {
                     tryingToBuff = true;
                     sleepTime = 500;
                     GetBuffs(myScheme);
-                    await sleep(500);
+                    if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(500);} else {await sleep(500);}
                     if (!TestNeedsBuffs()) {
                        console.info(`${(new Date()).toLocaleTimeString()} : AutoBuffer : Finishing receiving buffs`); 
                        SetAllClear();
@@ -124,6 +124,6 @@ function SetAllClear() {
                 sleepTime = 5000;
             }
         }
-        await sleep (sleepTime);
+        await sleep(sleepTime);
     }     
 })();

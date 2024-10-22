@@ -12,7 +12,7 @@ var ManaManager = (function () {
   const CHECK_INTERVAL = 2000; // 2 seconds. Increase this to check less frequently
 
   function ManaManager() {
-    console.info("=".repeat(54) + "\n== Vykaax's Mana Manager Script 1.00 ==\n" + "=".repeat(54));
+    console.info("=".repeat(54) + "\n== Vykaax's Mana Manager Script 1.1 ==\n" + "=".repeat(54));
 	
     checkManaInterval = setInterval(() => {
 		//console.info(`${(new Date()).toLocaleTimeString()} : Mana Manager : HP - ${Me.HpPercent} || MP - ${Me.MpPercent} || Ready - ${Me.IsInCombat}`);

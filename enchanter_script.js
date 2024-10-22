@@ -1,5 +1,5 @@
 (async function main() {
-	console.info("=".repeat(54) + "\n== Vykaax's Enchanter Script 1.00 ==\n" + "=".repeat(54));
+	console.info("=".repeat(54) + "\n== Vykaax's Enchanter Script 1.1 ==\n" + "=".repeat(54));
 	const TARGET_SCROLL_ID = 951; // Scroll Enchant Weapon C
 	const TARGET_ITEM_ID = 2503; // Yaksa Mace
 	const maxEnchant = 14; // safety max enchant - stop at this
@@ -8,7 +8,7 @@
 	var enchantSuccess = 0;
 	
 	//console.info(`Item Count: ${Inventory.Count} || Scrolls (${ewcItem.Count})`);
-	await sleep(2000);
+	if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(2000);} else {await sleep(2000);}
 	//let testStop = 200; // only do 3 items for now while testing
 	if (Context.IsConnected) {
 		for (;;) {	
@@ -45,7 +45,7 @@
 					let pbSelectItem = new PacketBuilder();
 					
 					Send.UseItem(ewcItem.objId);
-					await sleep(500);
+					if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(500);} else {await sleep(500);}
 					pbEnchant.AppendHex("D04C00");
 					pbEnchant.AppendHex(itemHex);
 					
@@ -54,10 +54,10 @@
 					pbSelectItem.AppendHex("00 00 00 00");
 					
 					Send.SendHex(pbEnchant.toString());
-					await sleep(500);
+					if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(500);} else {await sleep(500);}
 
 					Send.SendHex(pbSelectItem.toString());
-					await sleep(500);
+					if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(500);} else {await sleep(500);}
 					if (Inventory.GetItemByObjectID(thisEnchantItemId) == null) {
 						console.error(`Enchant Failed`);
 					} else {
@@ -68,7 +68,7 @@
 					}
 					console.log(`Current Rate: ${enchantSuccess} of ${enchantAttempts} (${(enchantSuccess/enchantAttempts*100).toFixed(2)}%)`);
 
-					await sleep(500);
+					if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(500);} else {await sleep(500);}
 					itemCount++;
 				}
 			}

@@ -38,7 +38,7 @@ var isFighting = false;
 var needToRun = false;
 
 (async function main() {
-	await sleep(1500);
+	if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1500);} else {await sleep(1500);}
 	
 	console.info(`${(new Date()).toLocaleTimeString()} : Farm Manager : Script Started v1.02`);
 	for (;;) {
@@ -48,26 +48,26 @@ var needToRun = false;
 				isFighting = false;
 				isRunning = false;
 				needToRun = false;
-				await sleep(2000);
+				if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(2000);} else {await sleep(2000);}
 				if (Me.HpPercent < 90 || Me.MpPercent < 50) {
 					Send.ReqBypassToServer("_bbsbufferbypass_heal 0 0 0");
-					await sleep(1000);
+					if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
 				} else {
 					console.info(`${(new Date()).toLocaleTimeString()} : Farm Manager : Teleporting to farm zone`);
 					RunCommand("/runmacro FARM"); // this macro should have a teleport command to get to the farming area from which the points will run
 					needToRun = true;
-					await sleep(1500);
+					if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1500);} else {await sleep(1500);}
 				}
 				
 			} else if (CurrentZone.ToString() == "GENERALZONE" && !isRunning && !isFighting && needToRun) {
 				console.info(`${(new Date()).toLocaleTimeString()} : Farm Manager : Entered farm area`);
 				//needToRun = false;
 				//StopCombat();
-				await sleep(500);
+				if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(500);} else {await sleep(500);}
 				//RunCommand("/startpoints");
 				RunCommand("/runmacro RUN");
 				
-				await sleep(1000);
+				if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
 			} else {
 				/*if (isRunning) {
 					console.info(`${(new Date()).toLocaleTimeString()} : Farm Manager : I'm running`);
@@ -79,6 +79,6 @@ var needToRun = false;
 			}
 	
 		}
-		await sleep(5000);
+		if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(5000);} else {await sleep(5000);}
 	}
 })();

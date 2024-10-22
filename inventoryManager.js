@@ -148,11 +148,11 @@ function CheckNeedShots() {
 
 
 (async function main() {
-	console.info("=== Vykaax's Inventory Manager Script 1.09 ===");
+	console.info("=== Vykaax's Inventory Manager Script 1.1 ===");
 	const destroyList = [15537];
 	const destroyTest = 15537; // Strongbox of Promise
 	
-	await sleep(5000);
+	if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(5000);} else {await sleep(5000);}
 	
 	//Send.ReqBypassToServer("_bbswarhouse:clanwithdraw");
 	let sleepTime = 60000;
@@ -163,7 +163,7 @@ function CheckNeedShots() {
 			if (itemToDestroy != null) {
 				console.info(`${(new Date()).toLocaleTimeString()} : Inventory Manager : There are items to destroy`);
 				destroyItem(itemToDestroy);
-				await sleep(1000);
+				if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
 			}
 
 			// Check if there are items to retrieve
@@ -171,9 +171,9 @@ function CheckNeedShots() {
 			if (needThisItem != null) {
 				console.info(`${(new Date()).toLocaleTimeString()} : Inventory Manager : I need to get ${needThisItem.Qty} x item ID ${needThisItem.Id}`);
 				Send.ReqBypassToServer("_bbswarhouse:clanwithdraw");
-				await sleep(1500);
+				if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1500);} else {await sleep(1500);}
 				WithdrawItems(lastWarehouseList, needThisItem.Id, needThisItem.Qty);
-				await sleep(1000);
+				if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
 				Send.RequestAutoSoulShot(needThisItem.Id,1);
 				sleepTime = 5000;
 				

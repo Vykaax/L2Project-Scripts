@@ -14,7 +14,7 @@ function addItem(itemID, qty) {
 	console.info("=".repeat(54) + "\n== Vykaax's Warehouse Sender Script 1.01 ==\n" + "=".repeat(54));
 	const ADENA_ID = 57;
 	const MINERVA_ID = 30048;
-	await sleep(2500);
+	if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(2500);} else {await sleep(2500);}
 	Send.ReqBypassToServer("_bbswarhouse:clandeposit");
 	let sleepTime = 240000;
     for(;;) {
@@ -49,7 +49,7 @@ function addItem(itemID, qty) {
 				//pb.AppendHex("3B");
 				//pb.AppendHex(pktString); // number of different items to deposit
 				Send.SendHex(pktCode);
-				await sleep(1000);
+				if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
 				if ( itemMinerva.Count > 2 ) {
 					console.debug(`Was not able to send items... trying again.`);
 					sleepTime = 1000;

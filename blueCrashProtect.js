@@ -1,7 +1,7 @@
 (async function main() {
-	await sleep(1500);
+	if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1500);} else {await sleep(1500);}
 	
-	console.info(`${(new Date()).toLocaleTimeString()} : Blue Party Crash Protection : Script Started v1.00`);
+	console.info(`${(new Date()).toLocaleTimeString()} : Blue Party Crash Protection : Script Started v1.1`);
 	for (;;) {
 		if (Context.IsConnected && !Me.IsDead) {
 			if ((CreaturesList.GetItemByName("BlueLeader") == null || CreaturesList.GetItemByName("BlueLeader").IsDead) && CurrentZone.ToString() == "GENERALZONE") {
@@ -20,6 +20,6 @@
 				}
 			}			
 		}
-		await sleep(1000);
+		if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
 	}
 })();

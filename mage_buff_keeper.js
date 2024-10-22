@@ -27,7 +27,7 @@ assert_min_version("2.1.2");
 
 	const CHECK_INTERVAL = 500; // 1 second. Increase this to check less frequently
 
-	console.info("=".repeat(54) + "\n== Vykaax's Mage Buffer Script 1.04 ==\n" + "=".repeat(54));
+	console.info("=".repeat(54) + "\n== Vykaax's Mage Buffer Script 1.05 ==\n" + "=".repeat(54));
 	console.info(`MageBuffer: My class is ${Me.ClassName} (${Me.ClassId.toString()})`);
 	for (;;) {
 		if (Status.IsConnected && !Me.IsDead) {

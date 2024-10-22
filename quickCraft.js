@@ -23,7 +23,7 @@ function addItem(itemID, qty) {
 			if (Me.MP <= 400) {
 				console.log(`${(new Date()).toLocaleTimeString()} : Quick Craft : Low Mana (${Me.MpPercent.toFixed(2)}%) - Community Heal`);
 				Send.ReqBypassToServer("_bbsbufferbypass_heal 0 0 0");
-				await sleep(500);
+				if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(500);} else {await sleep(500);}
 			} else {
 				//console.info(`${(new Date()).toLocaleTimeString()} : Quick Craft : Checking Materials`);
 				
@@ -40,7 +40,7 @@ function addItem(itemID, qty) {
 					console.info(`${(new Date()).toLocaleTimeString()} : Quick Craft : Nothing to craft`);
 				}
 				//console.info(`${(new Date()).toLocaleTimeString()} : Quick Craft : Materials Parameters Set`);
-				await sleep(200);
+				if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(200);} else {await sleep(200);}
 			}
 		}
         await sleep(craftSleep);

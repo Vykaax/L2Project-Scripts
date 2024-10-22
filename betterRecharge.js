@@ -13,7 +13,7 @@ var AutoRecharger = (function () {
   const CHECK_INTERVAL = 2500; // 2 seconds. Increase this to check less frequently
 
   function AutoRecharger() {
-    console.info("=".repeat(54) + "\n== Vykaax's Recharger Script 1.02 ==\n" + "=".repeat(54));
+    console.info("=".repeat(54) + "\n== Vykaax's Recharger Script 1.03 ==\n" + "=".repeat(54));
     console.info(`AutoRecharger: My class is ${Me.ClassName} (${Me.ClassId.toString()})`);
 	
     checkManaInterval = setInterval(() => {

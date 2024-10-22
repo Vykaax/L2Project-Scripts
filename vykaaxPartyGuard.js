@@ -109,7 +109,7 @@ var defendKillCount = 0;
         if (Context.IsConnected) {
             if (CurrentZone.ToString() == "PEACEZONE") {
                 pvpTargets = [];
-                await sleep(10000);
+                if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(10000);} else {await sleep(10000);}
             } else {
                 //SafeRemoveTarget();
                 if (Target != null) {
@@ -124,6 +124,6 @@ var defendKillCount = 0;
                 }
             }
         }
-		await sleep(300);
+		if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(300);} else {await sleep(300);}
     }
 })();

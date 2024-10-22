@@ -11,9 +11,9 @@ function addItem(itemID, qty) {
 
 
 (async function main() {
-	console.info("=".repeat(54) + "\n== Vykaax's Warehouse Receiver Script 1.01 ==\n" + "=".repeat(54));
+	console.info("=".repeat(54) + "\n== Vykaax's Warehouse Receiver Script 1.1 ==\n" + "=".repeat(54));
 	const SSC_ID = 1464
-	await sleep(2500);
+	if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(2500);} else {await sleep(2500);}
 	Send.ReqBypassToServer("_bbswarhouse:clanwithdraw");
 	let sleepTime = 240000;
 	let SHOT_ID = SSC_ID;
@@ -46,7 +46,7 @@ function addItem(itemID, qty) {
 				//pb.AppendHex("3B");
 				//pb.AppendHex(pktString); // number of different items to deposit
 				//Send.SendHex(pktCode);
-				await sleep(1000);
+				if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
 				if ( itemShots.Count <= 10000 ) {
 					console.debug(`Was not able to get items... trying again.`);
 					sleepTime = 10000;
