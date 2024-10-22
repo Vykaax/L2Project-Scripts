@@ -34,19 +34,19 @@ var getLoot = false;
                             DisableBot();
                             Send.Action(locked_item.objId);
                             console.info(`${(new Date()).toLocaleTimeString()} : Herb Grabber : Picking up ${locked_item.Name} (${locked_item.Distance})`);
-                            await sleep (1000);
+                            if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
                             EnableBot();  
                         } else {
                             //console.info(`${(new Date()).toLocaleTimeString()} : Herb Grabber : ${locked_item.Name} was not in range (${locked_item.Distance})`);
                         }
                     }
-                    await sleep(500);
+                    if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(500);} else {await sleep(500);}
                 } catch {
                     console.warn(`${(new Date()).toLocaleTimeString()} : Herb Grabber : Herb pickup failed. Maybe it was gone?`);
                     EnableBot();
                 }
 			}
 		}
-		await sleep(1000);
+		if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
 	}
 })();

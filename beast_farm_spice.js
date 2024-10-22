@@ -20,24 +20,24 @@ function UseSpice() {
 
 (async function main() {
     console.info("=== Vykaax's Beast Farmer Script v1.0 ===");
-    await sleep (1500);
+    if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1500);} else {await sleep(1500);}
     while (!Context.IsConnected) {
-          await sleep (500);  
+          if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(500);} else {await sleep(500);}  
     }
-    await sleep (1500);
+    if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1500);} else {await sleep(1500);}
 
     for(;;) {
         try {
             if (Context.IsConnected && !Me.IsDead && IsEnabled) {
                 if (Target != null) {
                     UseSpice();
-                    await sleep (200);
+                    if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(200);} else {await sleep(200);}
                 }
             }
         } catch (err) {
             console.error(`${(new Date()).toLocaleTimeString()} : BeastFarmer : Error in main loop... ${err}`);
         }
-        await sleep(1500);
+        if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1500);} else {await sleep(1500);}
         try {
             if (Inventory.GetItemByName("Golden Spice Crate") != null) {
                 if (verboseLog >= 1) { console.info(`${(new Date()).toLocaleTimeString()} : BeastFarmer : Opening spice crate`); }

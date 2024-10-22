@@ -1,16 +1,52 @@
+async function OnSystemMessage(id) {
+       if (id == 1066) {
+            EnableBot();
+       }  
+}
+
+var locked_item;
+var getLoot = false;
+
 (async function main() {
-	console.log("Starting Loot Grabber Script");
+	console.info("=== Vykaax's Herb Grabber Script Enabled v1.0 ===");
 	for (;;) {
-		if (DropList.Count > 0) {
+		if (DropList.Count > 0 && !Me.IsDead) {
 			for (let i = 0; i < DropList.Count; i++) {
-				DropList[i].CalculateDistance();
-				if (DropList[i].Distance < 500) {
-					Send.Action(DropList[i].objId);
-					console.log(`Picking up ${DropList[i].Name}`);
-					await sleep(2000);
-				}
+
+                locked_item = DropList[i];
+                try {
+                    getLoot = false;
+                    //console.info(`${(new Date()).toLocaleTimeString()} : Herb Grabber : Found item in range ${locked_item.Name}`);
+                    if (Me.HpPercent <= 90 && locked_item.Name.includes("Herb of Life")) {
+                        //console.info(`${(new Date()).toLocaleTimeString()} : Herb Grabber : Confirmed for pickup ${locked_item.Name}`);
+                        getLoot = true;
+                    } else if (Me.MpPercent <= 90 && locked_item.Name.includes("Herb of Mana")) {
+                        //console.info(`${(new Date()).toLocaleTimeString()} : Herb Grabber : Confirmed for pickup ${locked_item.Name}`);
+                        getLoot = true;
+                    } else if ((Me.ClassType.ToString() == "FIGHTER" || Me.ClassType.ToString() == "TANK")&& locked_item.Name.includes("Herb of Vampiric Rage")) {
+                        //console.info(`${(new Date()).toLocaleTimeString()} : Herb Grabber : Confirmed for pickup ${locked_item.Name}`);
+                        getLoot = true;
+                    }
+                    
+                    if (getLoot == true && Context.IsAttacking() == false) {
+                        locked_item.CalculateDistance();
+                        if (locked_item.Distance <= 250 && Me.CountTargetsInRange(250) < 2) {
+                            DisableBot();
+                            Send.Action(locked_item.objId);
+                            console.info(`${(new Date()).toLocaleTimeString()} : Herb Grabber : Picking up ${locked_item.Name} (${locked_item.Distance})`);
+                            if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
+                            EnableBot();  
+                        } else {
+                            //console.info(`${(new Date()).toLocaleTimeString()} : Herb Grabber : ${locked_item.Name} was not in range (${locked_item.Distance})`);
+                        }
+                    }
+                    if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(500);} else {await sleep(500);}
+                } catch {
+                    console.warn(`${(new Date()).toLocaleTimeString()} : Herb Grabber : Herb pickup failed. Maybe it was gone?`);
+                    EnableBot();
+                }
 			}
 		}
-		await sleep(1000);
+		if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
 	}
 })();

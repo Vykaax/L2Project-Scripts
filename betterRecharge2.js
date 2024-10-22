@@ -8,8 +8,10 @@ assert_min_version("2.2.0");
  */
   
 var AutoRecharger = (function () {
-  const ID1_TARGETS = [4,5,6,32,33,90,91,99,106,139,148,149,150,151,117];
-  const ID2_TARGETS = [117]
+  //const ID1_TARGETS = [4,5,6,32,33,90,91,99,106,139,148,149,150,151,117];
+  const ID1_TARGETS = [250];
+  const ID2_TARGETS = [117];
+  const NAME_TARGETS = ["GreenLeader","RedSeven","RedFour","BlueLeader","BlueFive","BlueSix","BlueSeven"];
   const RECHARGE_ID = 1013;
   const CHECK_INTERVAL = 2500; // 2 seconds. Increase this to check less frequently
 
@@ -18,13 +20,13 @@ var AutoRecharger = (function () {
     //console.info(`${(new Date()).toLocaleTimeString()} : AutoRecharger: My class is ${Me.ClassName} (${Me.ClassId.toString()})`);
 	
     checkManaInterval = setInterval(() => {
-		if (Context.IsConnected && !Me.IsDead) {
+		if (Context.IsConnected && !Me.IsDead && IsEnabled) {
 			for (i = 0; i < PartyList.Count; i++) {
-				if (ID1_TARGETS.includes(PartyList[i].ClassId) && Me.MpPercent > 50 && PartyList[i].MpPercent < 50) {
+				if ((ID1_TARGETS.includes(PartyList[i].ClassId) || NAME_TARGETS.includes(PartyList[i].Name))&& Me.MpPercent > 30 && PartyList[i].MpPercent < 50) {
 					Send.Action(PartyList[i].objId);
 					Send.Action(PartyList[i].objId);
 					Send.RequestMagicSkillUse(RECHARGE_ID);
-					console.warn(`${(new Date()).toLocaleTimeString()} : AutoRecharger: Recharging ${PartyList[i].Name}`);
+					console.warn(`${(new Date()).toLocaleTimeString()} : AutoRecharger : Recharging ${PartyList[i].Name}`);
 				}				
 			}
 		}

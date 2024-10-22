@@ -1,6 +1,6 @@
 assert_min_version("2.2.0");
 /**
- * Auto-Buffer Script for Classes v1.6
+ * Chat Commander Script v1.7
  *
  * @author Vykaax
  * @created 2020-05-25
@@ -11,7 +11,7 @@ assert_min_version("2.2.0");
 async function OnSay(charName, fullChatString, messageType) {
 	// Only respond to private message report requests from the following list of approved character names
 	// Remember when you add to this list you will need to stop and start the script on all characters
-	let approvedRecipients = [`Vykaax`,`Bishada`,`Xaan`,`Critical`,`Gather1`,`Immortal`,`Bulwark`,`Annihilation`,`Steak`,`Factory`];
+	let approvedRecipients = [`Vykaax`,`RedLeader`,`GreenLeader`,`MakeStuff`];
 	if (Context.IsConnected) {
 		//let fullChatString = messages.join("");
 		let chatSplit = fullChatString.split(" ");
@@ -146,6 +146,15 @@ async function OnSay(charName, fullChatString, messageType) {
 	}
 }
 
+function ReverseHex(str) {
+    console.log(`Entered ReverseHex with param ${str}`);
+    try {
+        return str.match(/[a-fA-F0-9]{2}/g).reverse().join('');
+    } catch {
+        console.log(`${err.message}`);
+    }
+}
+
 (async function main() {
     console.info("=== Vykaax's Chat Commander Script v1.7 Enabled ===");
 	/*	console.log("Available Commands:");
@@ -165,24 +174,50 @@ async function OnSay(charName, fullChatString, messageType) {
     for(;;) {
 		// do nothing
 		if (Context.IsConnected) {
-			if (Me.Level == 1) {
-				await sleep(2500)
+            //console.log("started");
+            /*var tryRec = false;
+            while (Me.RecommLeft > 0 && PartyList.Count > 0 && tryRec) {
+                //console.log("passed check");
+                try {
+                    var randomPartyMember = PartyList[Math.floor(Math.random() * PartyList.Count)];
+                    var randomPartyId = randomPartyMember.objId;
+                    var randomPartyName = randomPartyMember.Name;
+                    console.log(`Random party member ${randomPartyName} with Id ${randomPartyId}`);
+                    var pktString = "D07E"+(ReverseHex(randomPartyId.toString())).toUpperCase();
+                    console.log(`Recommend pktString ${pktString}`);
+                    //Send.SendHex(pktString);
+                } catch {
+                    console.log("Failed to build packet");
+                }
+                //DisableBot();
+                //RunCommand("/target Vykaax");
+                //var eval_objId = Math.floor(Math.random() * PartyList.Count); // select random party member
+                //Send.SendHex("");
+                //Send.RequestVoteNew();
+                if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(5000);} else {await sleep(5000);}
+                //RunCommand("/evaluate");
+                //EnableBot();
+            }*/
+            // Auto set options and start combat on newly created L2Idle characters
+			/*if (Me.Level == 1) {
+                
+				await Sleep(2500)
 				Send.ReqBypassToServer("voiced_bot set_var autoTeleport@ 1");
-				await sleep(1000);
+				if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
 				Send.ReqBypassToServer("voiced_bot set_var autoVitality@ 1");
-				await sleep(1000);
+				if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
 				Send.ReqBypassToServer("voiced_bot set_var autoDrop@ 1");
-				await sleep(1000);
+				if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
 				Send.ReqBypassToServer("voiced_bot set_var autoSpoil@ 1");
-				await sleep(1000);
+				if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
 				Send.ReqBypassToServer("voiced_menu set_var useAutoLoot@ 1");
-				await sleep(1000);
+				if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
 				Send.ReqBypassToServer("voiced_menu set_var useAutoLootHerbs@ 1");
-				await sleep(1000);
+				if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
 				
 				StartCombat();
-			}
+			}*/
 		}
-		await sleep(60000);
+		if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(60000);} else {await sleep(60000);}
     }
 })();
