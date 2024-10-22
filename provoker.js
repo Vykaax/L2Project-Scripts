@@ -4,7 +4,7 @@ var idealTargets = 3;
 var thresholdTargets = 3;
 
 (async function main() {
-    console.info("=== Vykaax's Provoke Script Enabled v0.5 ===");
+    console.info("=== Vykaax's Provoke Script Enabled v0.6 ===");
     if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1500);} else {await sleep(1500);}
     while (!Context.IsConnected) {
         if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(500);} else {await sleep(500);}

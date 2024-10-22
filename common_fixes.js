@@ -110,7 +110,7 @@ function OpenTreasureChest() {
 }
 
 (async function main() {
-    console.info("=== Vykaax's Common Fixes Script Enabled v0.8 ===");
+    console.info("=== Vykaax's Common Fixes Script Enabled v0.9 ===");
     if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1500);} else {await sleep(1500);}
     while (!Context.IsConnected) {
           if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(500);} else {await sleep(500);}  
