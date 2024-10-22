@@ -23,7 +23,7 @@ function addItem(itemID, qty) {
 			if (Me.MP <= 400) {
 				console.log(`${(new Date()).toLocaleTimeString()} : Craft Manager : Low Mana (${Me.MpPercent.toFixed(2)}%) - Community Heal`);
 				Send.ReqBypassToServer("_bbsbufferbypass_heal 0 0 0");
-				await sleep(500);
+				if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(500);} else {await sleep(500);}
 			} else {
 				//console.info(`${(new Date()).toLocaleTimeString()} : Craft Manager : Checking Materials`);
 				let itemToCraft, itemOre, itemCrystals, craftHex;
@@ -62,7 +62,7 @@ function addItem(itemID, qty) {
 					itemCrystals = Inventory.GetItemByName("Crystal (A-Grade)");
 				}
 				//console.info(`${(new Date()).toLocaleTimeString()} : Craft Manager : Materials Parameters Set`);
-				await sleep(200);
+				if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(200);} else {await sleep(200);}
 				
 				if (itemName != null) {
 					console.info(`${(new Date()).toLocaleTimeString()} : Craft Manager : I need to make ${itemName}`);
@@ -71,7 +71,7 @@ function addItem(itemID, qty) {
 						if (Inventory.GetItemByName("Adena").Count >= 5000000) {
 							console.info(`${(new Date()).toLocaleTimeString()} : Craft Manager : Buying ${itemOreName}`);
 							Send.ReqBypassToServer("_bbsmultisell;shop-general;20014");
-							await sleep(1000);
+							if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
 							if (itemOre.Name == "Spirit Ore") {
 								// Spirit Ore 10000
 								Send.SendHex("B02E4E000080841E0010270000000000000000000000000000000000000000000000000000000000000000");
@@ -79,7 +79,7 @@ function addItem(itemID, qty) {
 								// Soul Ore 10000
 								Send.SendHex("B02E4E0000E0FD1C0010270000000000000000000000000000000000000000000000000000000000000000");
 							}
-							await sleep(1000);
+							if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
 							itemOre = Inventory.GetItemByName(itemOreName);
 						} else {
 							console.warn(`${(new Date()).toLocaleTimeString()} : Craft Manager : Buying ${itemOreName} - FAIL - Not enough Adena`);
@@ -96,9 +96,9 @@ function addItem(itemID, qty) {
 								if (Inventory.GetItemByName("Adena").Count >= 21000000) {
 									console.info(`${(new Date()).toLocaleTimeString()} : Craft Manager : Buying Sword of Miracles to crystallize`);
 									Send.ReqBypassToServer("_bbsmsell;_bbshome;20010");
-									await sleep(1000);
+									if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
 									Send.SendHex("B02A4E0000A086010001000000000000000000000000000000000000000000000000000000000000000000");
-									await sleep(1000);
+									if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
 								} else {
 									console.warn(`${(new Date()).toLocaleTimeString()} : Craft Manager : Buying Sword of Miracles - FAIL - Not enough Adena`);
 								}
@@ -107,7 +107,7 @@ function addItem(itemID, qty) {
 								//let pktCode = "2F"+addItem(itemCrystallize.objId,1).toUpperCase()
 								Send.SendHex("2F"+addItem(itemCrystallize.objId,1).toUpperCase());
 								//console.info(`Crystallize: ${pktCode}`);
-								await sleep(1000);
+								if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
 							}
 						}
 					}
