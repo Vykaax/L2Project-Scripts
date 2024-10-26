@@ -9,10 +9,10 @@ var logStopTime;
 
 // Customize these
 var autoStart = true; // true = logging starts when the scripts starts | false = must start manually with "dmstart" in party chat
-var startAgainAfterMax = true; // start logging again after reaching the max logging time
 var verboseLog = 1; // 0 nothing, 1 rare events, 2 testing, 3 lots of testing
-var useAutoReset = false; // auto reset and send damage data to party caht on a schedule
-var maxLoggingTime = 720; // (in minutes) maximum time to log damage for
+var useAutoReset = false; // auto reset and send damage data to party chat on a schedule
+var maxLoggingTime = 720; // (in minutes) maximum time to log damage for if useAutoReset = true
+var startAgainAfterMax = true; // start logging again after reaching the max logging time if useAutoReset = true
 
 async function OnSay(charName, fullChatString, messageType) {
     if (Context.IsConnected) {
