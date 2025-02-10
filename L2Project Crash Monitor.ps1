@@ -21,7 +21,7 @@ $oldAppName = "L2Project Red.exe"
 $newVersionPath = "L2Project-v2.6.1-beta1\"
 $newAppName = "L2Project 2.6.1b12.exe"
 
-$ignoreLeader = $false  # Set this to true if you do not want the party leader clients to relaunch. If you do use this, make sure they are running the Chat Commander script that so they auto start combat after logging in
+$includeLeader = $true  # Set this to true if you do not want the party leader clients to relaunch. If you do use this, make sure they are running the Chat Commander script that so they auto start combat after logging in
 $memoryThreshold = 1050 # This is 'somewhere' around 1GB of RAM, but Windows calculates WorkingSet64 strangely so it will not match exactly what is shown on task manager. Set this lower if you are running out of memory before the bots are able to relaunch themselves.
 
 $botInfo = @()
@@ -50,7 +50,7 @@ do {
     $missingBots = $botInfo | Where {$checkedBots.BotName -notcontains $_.BotName}
     #$missingBots
     foreach ($missingBot in $missingBots) {
-        if ($missingBot.BotName -notlike "*leader*" -or $ignoreLeader -eq $true) {
+        if ($missingBot.BotName -notlike "*leader*" -or $includeLeader -eq $true) {
             write-host "$(Get-Date) - " -NoNewline
             write-host "$($missingBot.BotName) is missing" -ForegroundColor Yellow -NoNewline
             $profileList = Get-ChildItem -path "E:\L2\Project\_Profiles" | Where {$_.name -like "*$($missingBot.BotName)*"}
