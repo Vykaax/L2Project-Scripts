@@ -1,45 +1,81 @@
 assert_min_version("2.2.0");
+if(!this['sleep']) Sleep = sleep;
 /**
- * Chat Commander Script v1.7
+ * Chat Commander Script v1.8
  *
  * @author Vykaax
  * @created 2020-05-25
  * @requires L2Project v2.2.0 or higher
  * 2021-07-26: Replaced Status with Context (Vykaax)
  */
+ 
+const ssList = [1835,1463,1464,1465,1466,1467,3947,3948,3949,3950,3951,3952];
+// This is the list of characters allowed to make requests via chat channels. Names not in the list will be ignored
+const approvedRecipients = [`Vykaax`,`RedLeader`,`GreenLeader`,`MakeStuff`,`BlueLeader`,`PurpleLeader`,`OrangeLeader`,`YellowLeader`,`CrimsonLeader`,`Furiosa`];
+
+// This is the list of characters that are party/attack leaders. Putting their name here will cause them to auto start combat when the bot logs in
+const leaderNames = [`RedLeader`,`GreenLeader`,`FindStuff`,`BlueLeader`,`OrangeLeader`,`YellowLeader`,`CrimsonLeader`,`Furiosa`];
+
+ 
+function UseShots(newShotState) {
+    console.log(`Setting shot state to ${newShotState}`);
+    for (let i = 0; i < ssList.length; i++) {
+        Send.RequestAutoSoulShot(ssList[i],newShotState);
+    }
+}
+
+async function OnEnter(objId) {
+    if (objId == Me.objId) {
+        await sleep(2000);
+        console.warn(`${(new Date()).toLocaleTimeString()} : Logged In`);
+        UseShots((Options.UseShots ? 1 : 0));
+        // Make the character take a short step in a random direction to break the 'passive' login protection that prevents party invites
+        Send.MoveBackwardToLocation((Me.X)+Math.round((Math.random()-0.5)*100),Me.Y+Math.round((Math.random()-0.5)*100),Me.Z);
+        console.warn(`${(new Date()).toLocaleTimeString()} : Moved to remove protection`);
+        // Check if the character is a party leader, if yes and in a combat area the bot will StartCombat so that it doesn't just stand there forever
+        if (leaderNames.includes(Me.Name) && CurrentZone.ToString() == "GENERALZONE") {
+            console.warn(`${(new Date()).toLocaleTimeString()} : Attack Leader in GENERALZONE- TRUE`);
+            StopCombat();
+            await sleep(3000);
+            StartCombat();
+        } else {
+            console.warn(`${(new Date()).toLocaleTimeString()} : Attack Leader in GENERALZONE- FALSE`);
+            StopCombat();
+        }
+    }
+}
 
 async function OnSay(charName, fullChatString, messageType) {
 	// Only respond to private message report requests from the following list of approved character names
-	// Remember when you add to this list you will need to stop and start the script on all characters
-	let approvedRecipients = [`Vykaax`,`RedLeader`,`GreenLeader`,`MakeStuff`];
 	if (Context.IsConnected) {
 		//let fullChatString = messages.join("");
 		let chatSplit = fullChatString.split(" ");
 		if ((messageType == 4 || messageType == 3) && chatSplit[0] == "ss") {
 			// Use the party chat command "ss on" or "ss off" to enable or disable any available soulshots or blessed spiritshots
-			let ssList = [1835,1463,1464,1465,1466,1467,3947,3948,3949,3950,3951,3952];
 			let ssState = 99;
 			if (chatSplit[1] == "on") {
 				ssState = 1;
+                Options.UseShots = true;
 				Send.Say2(messageType, "Enabling SS","",true);
 			} else if (chatSplit[1] == "off") {
 				ssState = 0;
+                Options.UseShots = false;
 				Send.Say2(messageType, "Disabling SS","",true);
 			}
 			
 			if ( ssState == 0 || ssState == 1) {
-				let i;
-				for (let i = 0; i < ssList.length; i++) {
-					Send.RequestAutoSoulShot(ssList[i],ssState);
-				}
+				UseShots(ssState);
 			}
-		} else if ((messageType == 4 || messageType == 3 || (messageType == 2 && approvedRecipients.includes(charName))) && chatSplit[0] == "report") {
+		} else if ((messageType == 4 || messageType == 9 || messageType == 3 || (messageType == 2 && approvedRecipients.includes(charName))) && chatSplit[0] == "report") {
 			let itemList;
 			let itemName;
 			let statName;
+            let deathBuff;
+            let foundItems = [];
+            let itemCount = 0;
 			let checkByName = false;
 			
-			if (chatSplit[1] == "soulcrystal") {
+			if (chatSplit[1] == "soulcrystal" || chatSplit[1] == "sc") {
 				// This is the list of IDs all soul crystals level 10+
 				itemList = [4639,4650,4661,5577,5578,5579,5580,5581,5582,5908,5911,5914,9570,9571,9572,10160,10161,10162,10480,10481,10482,13071,13072,13073,15541,15542,15543,15826,15827,15828];
 			} else if (chatSplit[1] == "your_search") { // build your own custom item list for a single word search term here
@@ -47,7 +83,9 @@ async function OnSay(charName, fullChatString, messageType) {
 				itemList = [];
 			} else if ( Number.isInteger(parseInt(chatSplit[1])) ){
 				itemList = parseInt(chatSplit[1]);
-			} else {
+			} else if (chatSplit[1] == "deaths") {
+                deathBuff = BuffsList.GetItemByName("Death Penalty");
+            } else {
 				if (chatSplit[1] == "stat") {
 					statName = chatSplit[2];
 				} else {
@@ -67,26 +105,38 @@ async function OnSay(charName, fullChatString, messageType) {
 
 			if (statName != null) {
 				Send.Say2(messageType,`I have ${eval("Me."+statName)} ${statName}`,charName,true);
-			} else if (checkByName == false) {
+			} else if (deathBuff != null) {
+                console.warn("Death Penalty was requested, and found");
+                Send.Say2(messageType,`I have ${deathBuff.Name} (${deathBuff.Level})`,charName,true);
+            } else if (checkByName == false) {
 				if (Array.isArray(itemList)) {
 					let i;
 					for (i = 0; i < itemList.length; i++) {
+                        //foundItems = 0;
+                        //Inventory.forEach((item) => {if (itemList.includes(item.Id)) {foundItems++} });
 						var testItem = Inventory.GetItemByID(itemList[i]);
 						if (testItem != null) {
 							Send.Say2(messageType,`I have ${testItem.Count} x ${testItem.Name}`,charName,true);
 						}
 					}
 				} else {
+                    //Inventory.forEach((item) => {if (item.Name == itemName) {foundItems++} });
 					var testItem = Inventory.GetItemByID(itemList);
 					if (testItem != null) {
 						Send.Say2(messageType,`I have ${testItem.Count} x ${testItem.Name}`,charName,true);
 					}
 				}
-			} else {
-				let testItem = Inventory.GetItemByName(itemName);
-				if (testItem != null) {
-					Send.Say2(messageType,`I have ${testItem.Count} x ${testItem.Name}`,charName,true);
-				}
+			
+            } else {
+                Inventory.forEach((item) => {if (item.Name == itemName) {foundItems++} });
+                if (foundItems == 1) {
+                    let testItem = Inventory.GetItemByName(itemName);
+                    if (testItem != null) {
+                        Send.Say2(messageType,`I have ${testItem.Count} x ${testItem.Name}`,charName,true);
+                    }
+                } else if (foundItems > 1) {
+                    Send.Say2(messageType,`I have ${foundItems} x ${itemName}`,charName,true);
+                }
 			}
 		} else if ((messageType == 4 || messageType == 3 || (messageType == 2 && approvedRecipients.includes(charName))) && chatSplit[0] == "use") {
 			let reqId;
@@ -142,6 +192,15 @@ async function OnSay(charName, fullChatString, messageType) {
 					console.log(`testSkill was null`);
 				}
 			}
+		} else if (messageType == 4 && chatSplit[0] == "aoe") {
+			StopCombat();
+			let moveTarget = CreaturesList.GetItemByName("charName");
+			let ticks = 0;
+			do {
+				Send.MoveBackwardsToLocation(moveTarget.X,moveTarget.Y,moveTarget.Z)
+				if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
+			} while (!Me.IsMoving || ticks > 5)
+			StartCombat();
 		}
 	}
 }
@@ -156,7 +215,7 @@ function ReverseHex(str) {
 }
 
 (async function main() {
-    console.info("=== Vykaax's Chat Commander Script v1.7 Enabled ===");
+    console.info("=== Vykaax's Chat Commander Script v2.0 Enabled ===");
 	/*	console.log("Available Commands:");
 	console.log(" ");
 	console.log("Function 1: Auto Shots");
@@ -174,50 +233,7 @@ function ReverseHex(str) {
     for(;;) {
 		// do nothing
 		if (Context.IsConnected) {
-            //console.log("started");
-            /*var tryRec = false;
-            while (Me.RecommLeft > 0 && PartyList.Count > 0 && tryRec) {
-                //console.log("passed check");
-                try {
-                    var randomPartyMember = PartyList[Math.floor(Math.random() * PartyList.Count)];
-                    var randomPartyId = randomPartyMember.objId;
-                    var randomPartyName = randomPartyMember.Name;
-                    console.log(`Random party member ${randomPartyName} with Id ${randomPartyId}`);
-                    var pktString = "D07E"+(ReverseHex(randomPartyId.toString())).toUpperCase();
-                    console.log(`Recommend pktString ${pktString}`);
-                    //Send.SendHex(pktString);
-                } catch {
-                    console.log("Failed to build packet");
-                }
-                //DisableBot();
-                //RunCommand("/target Vykaax");
-                //var eval_objId = Math.floor(Math.random() * PartyList.Count); // select random party member
-                //Send.SendHex("");
-                //Send.RequestVoteNew();
-                if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(5000);} else {await sleep(5000);}
-                //RunCommand("/evaluate");
-                //EnableBot();
-            }*/
-            // Auto set options and start combat on newly created L2Idle characters
-			/*if (Me.Level == 1) {
-                
-				await Sleep(2500)
-				Send.ReqBypassToServer("voiced_bot set_var autoTeleport@ 1");
-				if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
-				Send.ReqBypassToServer("voiced_bot set_var autoVitality@ 1");
-				if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
-				Send.ReqBypassToServer("voiced_bot set_var autoDrop@ 1");
-				if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
-				Send.ReqBypassToServer("voiced_bot set_var autoSpoil@ 1");
-				if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
-				Send.ReqBypassToServer("voiced_menu set_var useAutoLoot@ 1");
-				if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
-				Send.ReqBypassToServer("voiced_menu set_var useAutoLootHerbs@ 1");
-				if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(1000);} else {await sleep(1000);}
-				
-				StartCombat();
-			}*/
 		}
-		if ((__VERSION__.split(".")[0] >= 3) || (__VERSION__.split(".")[0] == 2 && __VERSION__.split(".")[1] >= 6)) {await Sleep(60000);} else {await sleep(60000);}
+		await Sleep(60000);
     }
 })();
