@@ -13,42 +13,64 @@ $lockedBots = Get-Process *l2project* | select *,@{Name="BotName";Expression={$_
 $versionPath = "L2Project-v2.5.10\"
 $appName = "L2Project Red.exe"
 
-# I run 2.5.10 on party leaders due to faster mob selection, and 2.6.1 beta12 for everything else.
-# Name your executables and folder names correctly here
+# Add your party leader names to this list
+$leaders = @("RedLeader","GreenLeader","BlueLeader","PurpleLeader","OrangeLeader","YellowLeader","CrimsonLeader","FindStuff")
+# Set this to true if you want to include party leaders. If you do use this, make sure they are running the Chat Commander script that so they auto start combat after logging in
+$includeLeader = $true
 
+# I run 2.5.10 on party leaders due to faster mob selection, and 2.6.1 beta12 for everything else.
+# Name your executables and folder names correctly here. If you are only using one version, just make them the same
 $oldVersionPath = "L2Project-v2.5.10\"
 $oldAppName = "L2Project Red.exe"
 $newVersionPath = "L2Project-v2.6.1-beta1\"
 $newAppName = "L2Project 2.6.1b12.exe"
 
-$includeLeader = $true  # Set this to true if you do not want the party leader clients to relaunch. If you do use this, make sure they are running the Chat Commander script that so they auto start combat after logging in
-$memoryThreshold = 1050 # This is 'somewhere' around 1GB of RAM, but Windows calculates WorkingSet64 strangely so it will not match exactly what is shown on task manager. Set this lower if you are running out of memory before the bots are able to relaunch themselves.
+# Only take action to close a high memory / not responding bot when this number of warnings is reached
+$maxWarnings = 3
+
+# This is 'somewhere' around 1GB of RAM, but Windows calculates WorkingSet64 strangely so it will not match exactly what is shown on task manager. Set this lower if you are running out of memory before the bots are able to relaunch themselves.
+$memoryThreshold = 1050
 
 $botInfo = @()
 
 foreach ($lockedBot in $lockedBots) {
-    $botInfo += @{ BotName = $lockedBot.MainWindowTitle.Split("|")[0]; Crashes = 0; ProcessName = $lockedBot.ProcessName; Path = $lockedBot.Path } #; History = ""}
+    $botInfo += @{ BotName = $lockedBot.MainWindowTitle.Split("|")[0]; Crashes = 0; Warnings = 0; ProcessName = $lockedBot.ProcessName; Path = $lockedBot.Path }
 }
 
 
 do {
     $checkedBots = Get-Process *l2project* | select *,@{Name="BotName";Expression={$_.MainWindowTitle.Split("|")[0]}}
     foreach ($bot in $checkedBots) {
+        $matchingLockedBot = ($botInfo | Where {$_.BotName -eq $bot.BotName})
         if ($bot.MainWindowTitle -contains "*Not Responding*") {
-            write-host "$(Get-Date) - ALERT - Not Responding - " -ForegroundColor Red -NoNewline
-            write-host "$($bot.BotName) has been closed"
-            Get-Process *l2project* | Where {$_.MainWindowTitle.Split("|")[0] -like $bot.BotName} | Stop-Process
-        } elseif ($bot.WorkingSet64/1MB -gt $memoryThreshold -and ($bot.BotName -notlike "*leader*" -or $ignoreLeader -eq $true)) {
-            write-host "$(Get-Date) - ALERT - High Memory - " -ForegroundColor Yellow -NoNewline
-            write-host "$($bot.BotName) has been closed"
-            Get-Process *l2project* | Where {$_.MainWindowTitle.Split("|")[0] -like $bot.BotName} | Stop-Process
+            write-host "$(Get-Date) - ALERT - Not Responding [$($matchingLockedBot.Warnings)] - " -ForegroundColor Red -NoNewline
+            $matchingLockedBot.Warnings++
+            if ($matchingLockedBot.Warnings -ge $maxWarnings) {
+                Get-Process *l2project* | Where {$_.MainWindowTitle.Split("|")[0] -like $bot.BotName} | Stop-Process
+                write-host "$($bot.BotName) has been " -NoNewline
+                write-host "closed" -BackgroundColor Red
+                $matchingLockedBot.Warnings = 0
+            } else {
+                write-host "$($bot.BotName) has been warned"
+            }
+        } elseif ($bot.WorkingSet64/1MB -gt $memoryThreshold -and ($bot.BotName -notlike "*leader*" -or $includeLeader -eq $true)) {
+            $matchingLockedBot.Warnings++
+            write-host "$(Get-Date) - ALERT - High Memory [$($matchingLockedBot.Warnings)] - " -ForegroundColor Yellow -NoNewline
+            if ($matchingLockedBot.Warnings -ge $maxWarnings) {
+                write-host "$($bot.BotName) has been " -NoNewline
+                write-host "closed" -ForegroundColor Red
+                Get-Process *l2project* | Where {$_.MainWindowTitle.Split("|")[0] -like $bot.BotName} | Stop-Process
+                $matchingLockedBot.Warnings = 0
+            } else {
+                write-host "$($bot.BotName) has been " -NoNewline
+                write-host "warned" -ForegroundColor Yellow
+            }
         }
     }
     Start-Sleep -Milliseconds 500
     $checkedBots = Get-Process *l2project* | select *,@{Name="BotName";Expression={$_.MainWindowTitle.Split("|")[0]}}
-
     $missingBots = $botInfo | Where {$checkedBots.BotName -notcontains $_.BotName}
-    #$missingBots
+    
     foreach ($missingBot in $missingBots) {
         if ($missingBot.BotName -notlike "*leader*" -or $includeLeader -eq $true) {
             write-host "$(Get-Date) - " -NoNewline
@@ -68,7 +90,6 @@ do {
             Start-Process -FilePath $missingBot.Path -ArgumentList "E:\L2\Project\_Profiles\$($profile.Name)" -WorkingDirectory $appPath$versionPath
             Start-Sleep -Seconds 2
         }
-
     }
     Start-Sleep -Seconds 10
 } while ($true)
