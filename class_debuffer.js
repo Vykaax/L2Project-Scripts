@@ -49,14 +49,15 @@ async function SelectClassSkill() {
         case 'Phoenix Knight':
             debuffSkill = 400; // Tribunal
             break;
-		case 'Shillien Knight':
-		case 'Shillien Templar':
-			debuffSkill = 122; // Hex
-			break;
+	case 'Shillien Knight':
+	case 'Shillien Templar':
+		debuffSkill = 122; // Hex
+		break;
         case 'Shillien Elder':
         case 'Shillien Saint':
+    	case 'Cardinal':
             debuffSkill = 1539; // Stigma of Shilien
-			expectResult = false;
+		expectResult = false;
             break;        
         default: debuffSkill = null;
     }
@@ -100,6 +101,12 @@ async function OnSystemMessage(id,msg) {
 }
 
 function CheckConditions() {
+	consoleTime("log",3,`Condition hasSkill    : ${hasSkill}`);
+	consoleTime("log",3,`Condition trySkill    : ${trySkill}`);
+	consoleTime("log",3,`Condition Target      : ${Target}`);
+	consoleTime("log",3,`Condition Target HP   : ${Target.HP > (Me.HP*2.5)} (${Target.HP} > ${Me.HP*2.5})`);
+	consoleTime("log",3,`Condition MP Reserved : ${Me.MpPercent >= mpReserve}`);
+	consoleTime("log",3,`Condition Target Mob  : ${Target.crtType.ToString() == "Mob"} (${Target.crtType.ToString()})`);
     if (hasSkill == true && trySkill == true && Target != null && Target.HP > (Me.HP*2.5) && Me.MpPercent >= mpReserve && Target.crtType.ToString() == "Mob") {
 		consoleTime("log",3,`Check conditions : TRUE`);
         return true;
