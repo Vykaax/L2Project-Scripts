@@ -61,7 +61,7 @@ async function SelectClassSkill() {
             break;        
         default: debuffSkill = null;
     }
-	console.log("log",3,`Selection done`);
+	consoleTime("log",3,`Selection done`);
     if (SkillsList.GetItemByID(debuffSkill) != null) {
         hasSkill = true;
 		let testDebuffTime = /([0-9]+) seconds/.exec(SkillsList.GetItemByID(debuffSkill).Description)[1];
